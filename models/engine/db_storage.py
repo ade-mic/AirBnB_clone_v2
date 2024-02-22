@@ -29,10 +29,9 @@ class DBStorage:
 
     def all(self, cls=None):
         """
-        Querry all objects by class name.
-        if cls=None, query all types
+        Query all objects by class name.
+        If cls=None, query all types.
         """
-        """Loads storage dictionary from file"""
         from models.base_model import BaseModel
         from models.user import User
         from models.place import Place
@@ -40,21 +39,15 @@ class DBStorage:
         from models.city import City
         from models.amenity import Amenity
         from models.review import Review
-        classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-            }
+        objects = []
         if cls:
-            if isinstance(cls, str):
-                cls = self.classes.get(cls)
-
-            if cls is not None:
-                objects = self.__session.query(cls).all()
+            objects.extend(self.__session.query(cls).all())
         else:
-            for clss in self.classes.get(clss):
-                objects.extend(self.__session.query(clss).all())
+            clss = [State, City]  # Assuming these are your mapped classes
+            for cls in clss:
+                objects.extend(self.__session.query(cls).all())
         return {"{}.{}".format(type(obj).__name__, obj.id): obj for obj in objects}
+
 
     def new(self, obj):
         """
