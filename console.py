@@ -2,8 +2,8 @@
 """ Console Module """
 import cmd
 import sys
-from models.base_model import BaseModel
 from models.__init__ import storage
+from models.base_model import BaseModel
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -143,9 +143,8 @@ class HBNBCommand(cmd.Cmd):
                         new_instance.key = float(value)
                     else:
                         new_instance.key = int(value)
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """

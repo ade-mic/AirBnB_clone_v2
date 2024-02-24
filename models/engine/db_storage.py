@@ -18,12 +18,11 @@ class DBStorage:
         """Instantiate the DBStorage class."""
         user = os.getenv('HBNB_MYSQL_USER')
         password = os.getenv('HBNB_MYSQL_PWD')
+        host = os.getenv('HBNB_MYSQL_HOST')
         db = os.getenv('HBNB_MYSQL_DB')
-        self.__engine = create_engine("mysql+mysqldb://{}:{}@localhost:3306/{}"\
-                                      .format(user, password, db),
+        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}:3306/{}"\
+                                      .format(user, password, host, db),
                                       pool_pre_ping=True)
-        self.Session = sessionmaker(bind=self.__engine)
-        self.__session = self.Session()
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -75,4 +74,5 @@ class DBStorage:
         """
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        self.__session = scoped_session(session_factory)()   
+        Session = scoped_session(session_factory)
+        self.__session = Session

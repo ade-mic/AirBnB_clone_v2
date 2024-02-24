@@ -4,6 +4,7 @@ from models.base_model import BaseModel
 
 
 class Place(BaseModel):
+    __tablename__ = "places"
     """ A place to stay """
     city_id = ""
     user_id = ""
