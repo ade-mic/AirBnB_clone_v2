@@ -5,7 +5,7 @@
 sudo apt-get update
 
 # Install nginx
-if [ $(command -v nginx) ]; then
+if [ "$(command -v nginx)" ]; then
     echo "Nginx is installed."
 else
     sudo apt-get install -y nginx
