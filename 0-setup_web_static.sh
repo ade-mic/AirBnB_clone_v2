@@ -11,7 +11,7 @@ else
     sudo apt-get install -y nginx
 fi
 
-mkdir -p /data/;
+mkdir -p /data/
 mkdir -p /data/web_static/
 mkdir -p /data/web_static/releases/
 mkdir -p /data/web_static/shared/
