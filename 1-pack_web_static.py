@@ -37,7 +37,7 @@ def do_pack():
     if result.failed:
         return None
     else:
-        return "version/{}".format(filename)
+        return "versions/{}".format(filename)
 
 
 if __name__ == "__main__":
