@@ -4,6 +4,10 @@ Fabric script (based on the file 1-pack_web_static.py) that
 distributes an archive to your web servers,
 using the function do_deploy
 """
+from fabric.api import *
+import os
+import sys
+
 
 def do_deploy(archive_path):
     """
@@ -29,10 +33,6 @@ def do_deploy(archive_path):
     xx-web-01 and xx-web-02
     """
     
-    from fabric.api import *
-    import os
-    import sys
-
     env.hosts = ["54.85.90.192", "54.237.14.81"]
     env.username = sys.argv[-1]
     env.key_filename = sys.argv[-3]
