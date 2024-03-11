@@ -5,13 +5,6 @@ distributes an archive to your web servers,
 using the function do_deploy
 """
 
-from fabric.api import *
-from datetime import datetime
-import os
-
-env.hosts = ["54.85.90.192", "54.237.14.81"]
-env.username = "ubuntu"
-
 def do_deploy(archive_path):
     """
     Prototype: def do_deploy(archive_path):
@@ -35,6 +28,13 @@ def do_deploy(archive_path):
     You must use this script to deploy it on your servers:
     xx-web-01 and xx-web-02
     """
+    
+    from fabric.api import local, env, put, run
+    import os
+
+    env.hosts = ["54.85.90.192", "54.237.14.81"]
+    env.username = "ubuntu"
+
     if  not os.path.exists(archive_path):
         return False
     try:
@@ -44,7 +44,7 @@ def do_deploy(archive_path):
         # Extract the archive to /data/web_static/releases/<filename>
         filename = os.path.basename(archive_path)
         filename_no_ext = os.path.splitext(filename)[0]
-        release_folder = = "/data/web_static/releases/{}".format(filename_no_ext)
+        release_folder = "/data/web_static/releases/{}".format(filename_no_ext)
         run("mkdir -p {}".format(release_folder))
         run("tar -xzf /tmp/{} -C {}".format(filename, release_folder))
 
