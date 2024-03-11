@@ -29,11 +29,13 @@ def do_deploy(archive_path):
     xx-web-01 and xx-web-02
     """
     
-    from fabric.api import local, env, put, run
+    from fabric.api import *
     import os
+    import sys
 
     env.hosts = ["54.85.90.192", "54.237.14.81"]
-    env.username = "ubuntu"
+    env.username = sys.argv[-1]
+    env.key_filename = sys.argv[-3]
 
     if  not os.path.exists(archive_path):
         return False
