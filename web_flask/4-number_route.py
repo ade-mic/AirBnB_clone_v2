@@ -40,13 +40,13 @@ def display_python(text):
     """
     return "Python {}".format(escape(text.replace("_", " ")))
 
+
 @app.route("/number/<int:n>", strict_slashes=False)
 def display_n(n):
     """
     display n
     """
     return "{} is a number".format(n)
-
 
 
 if __name__ == "__main__":

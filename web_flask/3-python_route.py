@@ -30,6 +30,7 @@ def display_c(text):
     """
     return f"C {escape(text.replace('_', ' '))}"
 
+
 @app.route('/python/', defaults={'text': "is cool"}, strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
 def display_python(text):
