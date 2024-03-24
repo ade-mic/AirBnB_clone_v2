@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 import models
-from models.basemodel import BaseModel, Base
+from models.base_model import BaseModel, Base
 from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
@@ -10,10 +10,13 @@ from sqlalchemy.orm import relationship
 if models.storage_t == "db":
         place_amenity = Table("place_amenity", Base.metadata,
                               Column("place_id", String(60),
-                                     ForeignKey("place.id", onupdate="CASCADE", ondelete="CASCADE"),
+                                     ForeignKey("place.id", onupdate="CASCADE",
+                                                ondelete="CASCADE"),
                                      primary_key=True),
-                                     Column("amenity_id", String(60), 
-                                            ForeignKey("amenities.id", onupdate="CASCADE", ondelete="CASCADE"),
+                                     Column("amenity_id", String(60),
+                                            ForeignKey("amenities.id",
+                                                       onupdate="CASCADE",
+                                                       ondelete="CASCADE"),
                                             primary_key=True))
 
 
@@ -32,7 +35,8 @@ class Place(BaseModel):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=False)
         reviews = relationship("Review", backref="place")
-        amenities = relationship("Amenity", secondary="place_amenity", backref="place_amenities",
+        amenities = relationship("Amenity", secondary="place_amenity",
+                                 backref="place_amenities",
                                  viewonly=False)
     else:
          city_id = ""
@@ -49,8 +53,8 @@ class Place(BaseModel):
 
     def __init__(self, *args, **kwargs):
         """initializes Place"""
-        super.__init__(*args, **kwargs)
-    
+        super().__init__(*args, **kwargs)
+
     if models.storage_t != "db":
         @property
         def reviews(self):

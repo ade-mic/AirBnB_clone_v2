@@ -49,7 +49,7 @@ class DBStorage:
         If cls=None, query all types.
         """
         new_dict = {}
-        for clss in classes:            
+        for clss in classes:
             if clss is None or cls is classes[clss] or cls is clss:
                 objs = self.__session.query(classes[clss]).all()
                 for obj in objs:

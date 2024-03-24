@@ -11,6 +11,8 @@ if models.storage_t == 'db':
 else:
     Base = object
 
+time_fmt = "%Y-%m-%dT%H:%M:%S.%f"
+
 
 class BaseModel:
     """A base class for all hbnb models"""
@@ -26,9 +28,10 @@ class BaseModel:
             for key, item in kwargs.items():
                 if key != '__class__':
                     setattr(self, key, item)
-            
+
             if kwargs.get('created_at', None) and type('created_at') is str:
-                self.created_at = datetime.strptime(kwargs['creates_at'], "%Y-%m-%dT%H:%M:%S.%f")
+                self.created_at = datetime.strptime(kwargs['created_at'],
+                                                    time_fmt)
             else:
                 self.updated_at = datetime.utcnow
             if kwargs.get("id", None) is None:
@@ -54,16 +57,16 @@ class BaseModel:
 
     def to_dict(self):
         """Convert instance into dict format"""
-        dictionary = {}
-        dictionary.update(self.__dict__)
-        if '_sa_instance_state' in dictionary:
-            dictionary.pop('_sa_instance_state', None)
-        dictionary.update({'__class__':
-                          (str(type(self)).split('.')[-1]).split('\'')[0]})
-        dictionary['created_at'] = self.created_at.isoformat()
-        dictionary['updated_at'] = self.updated_at.isoformat()
-        return dictionary
-    
+        new_dict = self.__dict__.copy()
+        if "created_at" in new_dict:
+            new_dict["created_at"] = new_dict["created_at"].strftime(time_fmt)
+        if "updated_at" in new_dict:
+            new_dict["updated_at"] = new_dict["updated_at"].strftime(time_fmt)
+        new_dict["__class__"] = self.__class__.__name__
+        if '_sa_instance_state' in new_dict:
+            del new_dict["_sa_instance_state"]
+        return new_dict
+
     def delete(self):
         """Delete the current instance fronm storage"""
         models.storage.delete(self)
