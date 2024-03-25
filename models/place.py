@@ -10,7 +10,7 @@ from sqlalchemy.orm import relationship
 if models.storage_t == "db":
         place_amenity = Table("place_amenity", Base.metadata,
                               Column("place_id", String(60),
-                                     ForeignKey("place.id", onupdate="CASCADE",
+                                     ForeignKey("places.id", onupdate="CASCADE",
                                                 ondelete="CASCADE"),
                                      primary_key=True),
                                      Column("amenity_id", String(60),
@@ -20,12 +20,12 @@ if models.storage_t == "db":
                                             primary_key=True))
 
 
-class Place(BaseModel):
+class Place(BaseModel, Base):
     """ Representation of Place"""
     if models.storage_t == "db":
         __tablename__ = "places"
         city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
-        user_id = Column(String(60), ForeignKey("user.id"), nullable=False)
+        user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
         name = Column(String(1024), nullable=False)
         description = Column(String(1024), nullable=False)
         number_rooms = Column(Integer, nullable=False, default=0)
@@ -59,7 +59,7 @@ class Place(BaseModel):
         @property
         def reviews(self):
             """ getter attributes return the list od Review instances"""
-            from models.revies import Review
+            from models.review import Review
             review_list = []
             all_reviews = models.storage.all(Review)
             for review in all_reviews.values():

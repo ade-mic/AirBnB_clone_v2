@@ -7,7 +7,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
-import sqlachemy
+import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
