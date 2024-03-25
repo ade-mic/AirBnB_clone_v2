@@ -18,8 +18,8 @@ class BaseModel:
     """A base class for all hbnb models"""
     if models.storage_t == "db":
         id = Column(String(60), nullable=False, primary_key=True)
-        created_at = Column(DateTime, default=datetime.utcnow)
-        updated_at = Column(DateTime, default=datetime.utcnow)
+        created_at = Column(DateTime, default=datetime.now())
+        updated_at = Column(DateTime, default=datetime.now())
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
@@ -27,13 +27,15 @@ class BaseModel:
         if kwargs:
             for key, item in kwargs.items():
                 if key != '__class__':
-                    setattr(self, key, item)
-
-            if kwargs.get('created_at', None) and type('created_at') is str:
-                self.created_at = datetime.strptime(kwargs['created_at'],
-                                                    time_fmt)
+                    if key == 'created_at' or key == 'updated_at':
+                        self.__dict__[key] = datetime.strptime(
+                            item, time_fmt
+                        )
+                    else:
+                        self.__dict__[key] = item
             else:
-                self.updated_at = datetime.utcnow
+                self.created_at = datetime.now()
+                self.updated_at = datetime.now()
             if kwargs.get("id", None) is None:
                 self.id = str(uuid.uuid4())
         else:
@@ -59,9 +61,9 @@ class BaseModel:
         """Convert instance into dict format"""
         new_dict = self.__dict__.copy()
         if "created_at" in new_dict:
-            new_dict["created_at"] = new_dict["created_at"].strftime(time_fmt)
+            new_dict["created_at"] = new_dict["created_at"].isoformat()
         if "updated_at" in new_dict:
-            new_dict["updated_at"] = new_dict["updated_at"].strftime(time_fmt)
+            new_dict["updated_at"] = new_dict["updated_at"].isoformat()
         new_dict["__class__"] = self.__class__.__name__
         if '_sa_instance_state' in new_dict:
             del new_dict["_sa_instance_state"]
