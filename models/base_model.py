@@ -42,7 +42,7 @@ class BaseModel:
             # Randomly generate id and then convert to string
             self.id = str(uuid.uuid4())
             # Assign the time when an instance was
-            self.created_at = datetime.utcnow()
+            self.created_at = datetime.now()
             self.updated_at = self.created_at
 
     def __str__(self):
