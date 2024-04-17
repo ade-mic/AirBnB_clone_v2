@@ -9,10 +9,9 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
-
 classes = {'BaseModel': BaseModel, 'User': User, 'Place': Place,
-           'State': State, 'City': City, 'Amenity': Amenity,
-           'Review': Review}
+                    'State': State, 'City': City, 'Amenity': Amenity,
+                    'Review': Review}
 
 
 class FileStorage:
@@ -52,8 +51,8 @@ class FileStorage:
                 for key in temp:
                     self.__objects[key] = classes[
                         temp[key]['__class__']](**temp[key])
-        except (IOError, FileNotFoundError):
-            print("Error: File not found or read data failed.")
+        except:
+            pass
 
     def delete(self, obj=None):
         """
@@ -63,6 +62,7 @@ class FileStorage:
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
             if key in self.__objects:
                 del self.__objects[key]
+
 
     def close(self):
         """
