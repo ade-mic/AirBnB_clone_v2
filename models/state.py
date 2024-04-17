@@ -21,8 +21,7 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """getter for list of city instances related to the state"""
-            return [city for city in models.storage.all(City).values()
-                    if city.state_id == self.id]
+            return [city for city in models.storage.all(City).values() if city.state_id == self.id]
 
     def __init__(self, *args, **kwargs):
         """initializes state"""
