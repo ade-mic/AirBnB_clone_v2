@@ -37,7 +37,8 @@ def state_detail(state_id):
     for state in states:
         if state.id == state_id:
             state_by_city = state
-            state_by_city.cities = sorted(state.cities, key=lambda city: city.name)
+            state_by_city.cities = sorted(state.cities,
+                                          key=lambda city: city.name)
             break
 
     return render_template("9-states.html", state=state_by_city)
